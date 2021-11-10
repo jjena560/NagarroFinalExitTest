@@ -1,0 +1,122 @@
+<div class="main-container">
+  <img
+    mat-card-image
+    class="image"
+    src="https://images.pexels.com/photos/245032/pexels-photo-245032.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+    alt="https://i.pinimg.com/originals/48/a0/8e/48a08ec82019b150926f9d3f21691355.jpg"
+  />
+  <div class="centered">
+    <h1 style="font-size: 30px; text-shadow: 20px; text-align: justify">
+      <b>The Community</b>
+    </h1>
+    <h5 style="font-size: 15px; text-shadow: 20px; text-align: justify">
+      Find Solutions. Ask Questions, Share Ideas. Connect with users across the
+      globe.
+    </h5>
+  </div>
+  <div class="top-left" *ngIf="loggedIn()">
+    Welcome! {{ currentUser().firstName }} {{ currentUser().lastName }}
+  </div>
+
+  <div class="top-right" *ngIf="loggedIn()">
+    <a (click)="logout()" style="color: white; cursor: pointer"
+      ><span class="material-icons"> logout </span>Logout</a
+    >
+    <div
+      style="margin-top: 15px"
+      *ngIf="currentUser().authorities[0].authority == 'ADMIN'"
+    >
+      <button mat-raised-button color="primary" routerLink="/admin/users">
+        Admin Panel
+      </button>
+    </div>
+  </div>
+
+  <div class="search-box" *ngIf="loggedIn()">
+    <button class="btn-search">
+      <span class="material-icons"> add_circle </span>
+    </button>
+    <label class="input-search"
+      ><a routerLink="/requestReview">Request A Review</a></label
+    >
+  </div>
+
+  <div class="top-left" *ngIf="!loggedIn()">
+    <a routerLink="/login" style="color: white"
+      ><span class="material-icons"> account_circle </span>Login / Register</a
+    >
+  </div>
+
+  <div class="bottom-left">
+    <span class="material-icons"> public </span>
+    <div class="stats">
+      <h3>{{ stats[0] }} Members</h3>
+    </div>
+  </div>
+
+  <div class="centered-icon">
+    <span class="material-icons"> message </span>
+    <div class="stats">
+      <h3>{{ stats[1] }} Posts</h3>
+    </div>
+  </div>
+  <div class="bottom-right">
+    <span class="material-icons"> person </span>
+    <div class="stats">
+      <h3>{{ stats[2] }} Online</h3>
+    </div>
+  </div>
+</div>
+
+<div class="box" *ngIf="loggedIn()">
+  <table class="element">
+    <tr>
+      <td>
+        <input
+          type="text"
+          placeholder="Type to Search..."
+          class="search"
+          (keyup.enter)="OnInput($event)"
+        />
+      </td>
+      <td>
+        <a href="#"><span class="material-icons"> search </span></a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="searchResult" *ngIf="searchedProducts().length > 0 && loggedIn()">
+  <table class="searchTable">
+    <tr>
+      <th>Product Name</th>
+      <th>Brand</th>
+      <th>Product Code</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let p of searchedProducts()">
+      <td>{{ p.productName }}</td>
+      <td>{{ p.brand }}</td>
+      <td>{{ p.productCode }}</td>
+      <td>
+        <a (click)="addReview(p.productId)" routerLink="addReview"
+          >Add Review</a
+        >
+        /
+        <a (click)="showReview(p.productId)" routerLink="showReview"
+          >Show Reviews</a
+        >
+      </td>
+    </tr>
+  </table>
+  <button
+    style="margin-left: 10px; height: 35px"
+    (click)="removeFilter()"
+    mat-raised-button
+    color="warn"
+  >
+    Remove Filter
+  </button>
+</div>
+
+<div></div>
